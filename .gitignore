@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+
+# Hugging Face models cache
+~/.cache/huggingface/hub/
+
+# Sensitive info
+*.env
+*.json    # optional, if storing API keys
+response.mp3
+
+# MacOS system files
+.DS_Store
