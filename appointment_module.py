@@ -14,7 +14,6 @@ def save_data(data):
         json.dump(data, f, indent=4)
 
 def book_appointment(name, date, time):
-    # Validate date/time
     try:
         datetime.strptime(date, "%Y-%m-%d")
         datetime.strptime(time, "%H:%M")
