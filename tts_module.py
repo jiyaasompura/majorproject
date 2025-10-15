@@ -1,17 +1,37 @@
-import openai
-import os
+import requests
+from pathlib import Path
+import pygame  # for playback
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+API_KEY = os.environ.get("elevenlabs_api_key")
+VOICE_ID = "EXAVITQu4vr4xnSDxMaL"  # default male voice
 
-def generate_speech(text, output_file="response.mp3"):
-    try:
-        with openai.audio.speech.with_streaming_response.create(
-            model="gpt-4o-mini-tts",
-            voice="alloy",
-            input=text
-        ) as response:
-            response.stream_to_file(output_file)
-        return output_file
-    except Exception as e:
-        print("TTS Error:", e)
-        return None
+def tts_speak(text):
+    """Convert text to realistic voice using ElevenLabs API."""
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
+    headers = {
+        "Accept": "audio/mpeg",
+        "Content-Type": "application/json",
+        "xi-api-key": API_KEY
+    }
+    data = {
+        "text": text,
+        "model_id": "eleven_turbo_v2",
+        "voice_settings": {"stability": 0.3, "similarity_boost": 0.8}
+    }
+
+    # Send request
+    response = requests.post(url, json=data, headers=headers)
+    if response.status_code != 200:
+        raise Exception(f"TTS Error: {response.text}")
+
+    # Save audio
+    output_path = Path("response.mp3")
+    with open(output_path, "wb") as f:
+        f.write(response.content)
+
+    # Play audio
+    pygame.mixer.init()
+    pygame.mixer.music.load(str(output_path))
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy():
+        continue

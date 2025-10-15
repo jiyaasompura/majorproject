@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Python
 __pycache__/
 *.pyc
@@ -15,3 +16,6 @@ response.mp3
 
 # MacOS system files
 .DS_Store
+
+.env
+
