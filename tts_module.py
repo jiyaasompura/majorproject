@@ -2,7 +2,7 @@ import requests
 from pathlib import Path
 import pygame  # for playback
 
-API_KEY = "sk_fa943c2539f4e75f629f4e98aadd2a0f3bd202191b15dae4"
+API_KEY = os.environ.get("elevenlabs_api_key")
 VOICE_ID = "EXAVITQu4vr4xnSDxMaL"  # default male voice
 
 def tts_speak(text):
